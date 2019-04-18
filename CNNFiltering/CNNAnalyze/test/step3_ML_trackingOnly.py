@@ -9,6 +9,12 @@ from Configuration.StandardSequences.Eras import eras
 
 import os
 
+if not os.path.exists("doublets"):
+    os.makedirs("doublets")
+
+cmsRelPath = os.environ['CMSSW_BASE']
+print(cmsRelPath)
+
 process = cms.Process('RECOPatatrack',eras.Run2_2018)
 
 # import of standard configurations
@@ -26,11 +32,12 @@ process.load('DQMOffline.Configuration.DQMOfflineMC_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 process.load('CNNFiltering.CNNAnalyze.CNNAnalyze_cfi')
 
-options = VarParsing ('PatatrackML')
+options = VarParsing ('analysis')
 options.register ('pileUp',50,VarParsing.multiplicity.singleton,VarParsing.varType.int,"Pileup")
 options.register ('skipEvent',0,VarParsing.multiplicity.singleton,VarParsing.varType.int,"Skip Events")
 options.register ('numEvents',100,VarParsing.multiplicity.singleton,VarParsing.varType.int,"Max Events")
 options.register ('numFile',2,VarParsing.multiplicity.singleton,VarParsing.varType.int,"File Number")
+options.register ('openDataVM',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,"On OpenDataVM?")
 options.parseArguments()
 
 opendata = [
@@ -107,6 +114,25 @@ from PhysicsTools.PatAlgos.tools.helpers import associatePatAlgosToolsTask
 associatePatAlgosToolsTask(process)
 
 # customisation of the process.
+if options.openDataVM:
+    myDb = cms.string('sqlite_file:/cvmfs/cms-opendata-conddb.cern.ch/102X_upgrade2018_design_v9.db')
+    recotauDB = cms.string('sqlite_file:' + cmsRelPath + '/src/recotautag.db')
+
+    process.GlobalTag.connect = myDb
+
+    process.GlobalTag.globaltag = '102X_upgrade2018_design_v9'
+    process.GlobalTag.snapshotTime = cms.string("9999-12-31 23:59:59.000")
+
+    process.l1conddb.connect = myDb
+    process.l1ugmtdb.connect = myDb
+    process.loadRecoTauTagMVAsFromPrepDB.connect = recotauDB
+
+    process.l1ugmtdb.toGet   = cms.VPSet(
+                cms.PSet(
+                     record = cms.string('L1TMuonGlobalParamsO2ORcd'),
+                     tag = cms.string("L1TMuonGlobalParams_Stage2v0_2018_mc")
+                )
+           )
 
 # Automatic addition of the customisation function from SimGeneral.MixingModule.fullMixCustomize_cff
 from SimGeneral.MixingModule.fullMixCustomize_cff import setCrossingFrameOn
