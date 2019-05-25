@@ -20,8 +20,8 @@ cmsenv
 Once the compilation is completed you are ready to produce the pixel doublets seeds datasets:
  
 ``` bash
-cmsrel CMSSW_10_3_5
-cd CMSSW_10_3_5/src/CNNFiltering/CNNAnalyze/test/
+cmsrel CMSSW_10_2_5
+cd CMSSW_10_2_5/src/CNNFiltering/CNNAnalyze/test/
 cmsRun step3_ML_trackingOnly.py
 ```
 
@@ -32,8 +32,8 @@ This configuration will run the full CMS track reconstruction on simulated (![eq
 Analogously 
 
 ``` bash
-cmsrel CMSSW_10_3_5
-cd CMSSW_10_3_5/src/CNNFiltering/CNNAnalyze/test/
+cmsrel CMSSW_10_2_5
+cd CMSSW_10_2_5/src/CNNFiltering/CNNAnalyze/test/
 cmsRun step3_ML_pixelOnly.py
 ```
 
@@ -112,9 +112,9 @@ The dataset created above consists of a collection of pixel doublet seeds that w
    </td>
   </tr>
   <tr>
-   <td>bSX, bSY, bSZ, bSdZ
+   <td>bSX, bSY, bSZ
    </td>
-   <td>Beam spot coordinates (x,y,z) and \sigma_{z}
+   <td>Beam spot coordinates (x,y,z)
    </td>
   </tr>
   <tr>
