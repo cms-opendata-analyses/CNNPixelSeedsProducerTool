@@ -5,10 +5,6 @@
 //
 /**\class CNNAnalyze CNNAnalyze.cc CNNFiltering/CNNAnalyze/plugins/CNNAnalyze.cc
 
-Description: [one line class summary]
-
-Implementation:
-[Notes on implementation]
 */
 //
 // Original Author:  adrianodif
@@ -661,19 +657,11 @@ CNNAnalyze::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
       for (int j = 0; j < 2; j++)
       for (size_t i = 0; i < hitPars[j].size(); i++)
       outCNNFile << hitPars[j][i] << "\t";
-
-      outCNNFile << deltaA   << "\t";
-      outCNNFile << deltaADC << "\t";
-      outCNNFile << deltaS   << "\t";
-      outCNNFile << deltaR   << "\t";
-      outCNNFile << deltaPhi << "\t";
-      outCNNFile << deltaZ   << "\t";
-      outCNNFile << zZero    << "\t";
+      
 
       for (size_t i = 0; i < theTP.size(); i++)
       outCNNFile << theTP[i] << "\t";
-
-      outCNNFile << 542.1369;
+      
       outCNNFile << std::endl;
       // outCNNFile << hitPars[0].size() << " -- " <<  hitPars[1].size() << " -- " << theTP.size() << std::endl << std::endl;
       // std::cout << hitPars[0].size() << " " << hitPars[1].size() << " " << theTP.size() << std::endl;
