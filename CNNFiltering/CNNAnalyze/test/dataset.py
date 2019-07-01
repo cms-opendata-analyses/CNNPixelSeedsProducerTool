@@ -21,13 +21,11 @@ def to_categorical(y, num_classes=None):
     categorical[np.arange(n), y] = 1
     return categorical,num_classes
 
-padshape = 16
-
 target_lab = "label"
 
 pdg_lab = "inTpPdgId"
 
-headLab = ["run","evt","lumi","PU","detSeqIn","detSeqOut","bSX","bSY","bSZ","bSdZ"]
+headLab = ["run","evt","lumi","PU","bSX","bSY","bSZ","bSdZ"]
 
 hitCoord = ["X","Y","Z","Phi","R"] #5
 
@@ -40,7 +38,7 @@ hitPixel = ["Pix" + str(el) for el in range(1, padshape*padshape + 1)]
 
 hitCharge = ["SumADC"]
 
-hitLabs = hitCoord + hitDet + hitClust + hitPixel + hitCharge
+hitLabs = hitCoord + hitDet + hitClust + hitPixel
 
 inHitLabs = [ "in" + str(i) for i in hitLabs]
 outHitLabs = [ "out" + str(i) for i in hitLabs]
@@ -51,10 +49,9 @@ outPixels = [ "out" + str(i) for i in hitPixel]
 
 particle = ["PId","TId","Px","Py","Pz","Pt","MT","ET","MSqr","PdgId",
                 "Charge","NTrackerHits","NTrackerLayers","Phi","Eta","Rapidity",
-                "VX","VY","VZ","DXY","DZ","BunchCrossing","IsChargeMatched",
-                "IsSigSimMatched","SharedFraction","NumAssocRecoTracks"]
+                "VX","VY","VZ","DXY","DZ"]
 
-hitFeatures = hitCoord + hitDet + hitClust + hitCharge # 5 + 12 + 13 + 1 = 31
+hitFeatures = hitCoord + hitDet + hitClust  # 5 + 12 + 13 + 1 = 31
 
 inParticle = [ "inTp" + str(i) for i in particle]
 outParticle = [ "outTp" + str(i) for i in particle]
@@ -62,13 +59,11 @@ outParticle = [ "outTp" + str(i) for i in particle]
 inHitFeature  = [ "in" + str(i) for i in hitFeatures]
 outHitFeature = [ "out" + str(i) for i in hitFeatures]
 
-particleLabs = ["label","intersect","particles"] + inParticle +  outParticle
+particleLabs = ["label"] + inParticle +  ["BunchCrossing"] + outParticle
 
-differences = ["deltaA", "deltaADC", "deltaS", "deltaR", "deltaPhi", "deltaZ", "ZZero"]
+featureLabs = inHitFeature + outHitFeature
 
-featureLabs = inHitFeature + outHitFeature + differences
-
-dataLab = headLab + inHitLabs + outHitLabs + differences + particleLabs + ["dummyFlag"]
+dataLab = headLab + inHitLabs + outHitLabs  + particleLabs
 
 layer_ids = [0, 1, 2, 3, 14, 15, 16, 29, 30, 31]
 
